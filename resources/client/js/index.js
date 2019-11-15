@@ -1,18 +1,18 @@
 function pageLoad() {
 
+    let fruitsHTML = `<table>` +
+        '<tr>' +
+        '<th>Id</th>' +
+        '<th>Name</th>' +
+        '<th>Image</th>' +
+        '<th>Colour</th>' +
+        '<th>Size</th>' +
+        '<th class="last">Options</th>' +
+        '</tr>';
+
     fetch('/fruit/list', {method: 'get'}
     ).then(response => response.json()
     ).then(fruits => {
-
-        let fruitsHTML = `<table>` +
-            '<tr>' +
-            '<th>Id</th>' +
-            '<th>Name</th>' +
-            '<th>Image</th>' +
-            '<th>Colour</th>' +
-            '<th>Size</th>' +
-            '<th class="last">Options</th>' +
-            '</tr>';
 
         for (let fruit of fruits) {
 
