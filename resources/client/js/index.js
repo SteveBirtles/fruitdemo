@@ -11,7 +11,7 @@ function pageLoad() {
             '<th>Image</th>' +
             '<th>Colour</th>' +
             '<th>Size</th>' +
-            '<th>Options</th>' +
+            '<th class="last">Options</th>' +
             '</tr>';
 
         for (let fruit of fruits) {
@@ -22,7 +22,7 @@ function pageLoad() {
                 `<td><img src='/client/img/${fruit.image}' alt='Picture of ${fruit.name}' height='100px'></td>` +
                 `<td>${fruit.colour}</td>` +
                 `<td>${fruit.size}</td>` +
-                `<td>` +
+                `<td class="last">` +
                 `<button class='editButton' data-id='${fruit.id}'>Edit</button>` +
                 `<button class='deleteButton' data-id='${fruit.id}' style='margin-left: 10px;'>Delete</button>` +
                 `</td>` +
@@ -53,32 +53,77 @@ function pageLoad() {
 
 function editFruit(event) {
 
-    document.getElementById("listDiv").style.display = 'none';
-    document.getElementById("editDiv").style.display = 'block';
+    const id = event.target.getAttribute("data-id");
 
-    let id = event.target.getAttribute("data-id");
+    if (id === null) {
 
-    fetch('/fruit/get/' + id, {method: 'get'}
-    ).then(response => response.json()
-    ).then(fruit => {
+        document.getElementById("editHeading").value = 'Add new fruit:';
 
-        if (fruit.hasOwnProperty('error')) {
-            alert(fruit.error);
-        } else {
-            document.getElementById("fruitId").value = id;
-            document.getElementById("fruitName").value = fruit.name;
-            document.getElementById("fruitImage").value = fruit.image;
-            document.getElementById("fruitColour").value = fruit.colour;
-            document.getElementById("fruitSize").value = fruit.size;
-        }
+        document.getElementById("fruitId").value = '';
+        document.getElementById("fruitName").value = '';
+        document.getElementById("fruitImage").value = '';
+        document.getElementById("fruitColour").value = '';
+        document.getElementById("fruitSize").value = '';
 
-    });
+        document.getElementById("listDiv").style.display = 'none';
+        document.getElementById("editDiv").style.display = 'block';
+
+    } else {
+
+        fetch('/fruit/get/' + id, {method: 'get'}
+        ).then(response => response.json()
+        ).then(fruit => {
+
+            if (fruit.hasOwnProperty('error')) {
+                alert(fruit.error);
+            } else {
+
+                document.getElementById("editHeading").value = 'Edit ' + fruit.name + ':';
+
+                document.getElementById("fruitId").value = id;
+                document.getElementById("fruitName").value = fruit.name;
+                document.getElementById("fruitImage").value = fruit.image;
+                document.getElementById("fruitColour").value = fruit.colour;
+                document.getElementById("fruitSize").value = fruit.size;
+
+                document.getElementById("listDiv").style.display = 'none';
+                document.getElementById("editDiv").style.display = 'block';
+                
+            }
+
+        });
+
+    }
 
 }
 
 function saveEdit(event) {
 
     event.preventDefault();
+
+    const id = document.getElementById("fruitId").value;
+    const form = document.getElementById("fruitForm");
+    const formData = new FormData(form);
+
+    let apiPath = '';
+    if (id === '') {
+        apiPath = '/fruit/new';
+    } else {
+        apiPath = '/fruit/update';
+    }
+
+    fetch(apiPath, {method: 'post', body: formData}
+    ).then(response => response.json()
+    ).then(responseData => {
+
+        if (responseData.hasOwnProperty('error')) {
+            alert(responseData.error);
+        } else {
+            document.getElementById("listDiv").style.display = 'block';
+            document.getElementById("editDiv").style.display = 'none';
+            pageLoad();
+        }
+    });
 
 }
 
@@ -94,7 +139,7 @@ function cancelEdit(event) {
 
 function deleteFruit(event) {
 
-    let ok = confirm("Are you sure?");
+    const ok = confirm("Are you sure?");
 
     if (ok === true) {
 
@@ -104,10 +149,10 @@ function deleteFruit(event) {
 
         fetch('/fruit/delete', {method: 'post', body: formData}
         ).then(response => response.json()
-        ).then(data => {
+        ).then(responseData => {
 
-                if (data.hasOwnProperty('error')) {
-                    alert(data.error);
+                if (responseData.hasOwnProperty('error')) {
+                    alert(responseData.error);
                 } else {
                     pageLoad();
                 }

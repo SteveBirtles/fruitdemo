@@ -9,14 +9,18 @@
 
     <body onload="pageLoad()">
 
-        <div id="content" style="text-align:center;">
+        <div id="content">
 
-            <h1>Fruits!</h1>
+            <div id="pageHeader">
+                <div style="float: right"><button id="newButton" class="editButton">Add New Fruit</button></div>
+                <h1>All the CRUD ops demoed with Fruit!</h1>
+            </div>
 
             <div id="listDiv"></div>
 
             <div id="editDiv" style="display: none;">
-                <form>
+                <h2 id="editHeading"></h2>
+                <form id="fruitForm">
                     <input type="hidden" name="id" id="fruitId">
                     <div style="width: 100%; text-align: left; margin-bottom: 10px;">
                         <div style="width: 100px; display: inline-block;">Name:</div>
