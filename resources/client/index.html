@@ -12,33 +12,33 @@
         <div id="content">
 
             <div id="pageHeader">
-                <div style="float: right"><button id="newButton" class="editButton">Add New Fruit</button></div>
+                <div class="floatRight"><button id="newButton" class="editButton">Add New Fruit</button></div>
                 <h1>All the CRUD ops demoed with Fruit!</h1>
             </div>
 
             <div id="listDiv"></div>
 
-            <div id="editDiv" style="display: none;">
+            <div id="editDiv">
                 <h2 id="editHeading"></h2>
                 <form id="fruitForm">
                     <input type="hidden" name="id" id="fruitId">
-                    <div style="width: 100%; text-align: left; margin-bottom: 10px;">
-                        <div style="width: 100px; display: inline-block;">Name:</div>
+                    <div>
+                        <label for="fruitName" class="label">Name:</label>
                         <input type="text" name="name" id="fruitName">
                     </div>
-                    <div style="width: 100%; text-align: left; margin-bottom: 10px;">
-                        <div style="width: 100px; display: inline-block;">Image:</div>
+                    <div>
+                        <label for="fruitImage" class="label">Image:</label>
                         <input type="text" name="image" id="fruitImage">
                     </div>
-                    <div style="width: 100%; text-align: left; margin-bottom: 10px;">
-                        <div style="width: 100px; display: inline-block;">Colour:</div>
+                    <div>
+                        <label for="fruitColour" class="label">Colour:</label>
                         <input type="text" name="colour" id="fruitColour">
                     </div>
-                    <div style="width: 100%; text-align: left; margin-bottom: 10px;">
-                        <div style="width: 100px; display: inline-block;">Size: </div>
+                    <div>
+                        <label for="fruitSize" class="label">Size:</label>
                         <input type="text" name="size" id="fruitSize">
                     </div>
-                    <div style="width: 100%; text-align: left; margin-bottom: 10px;">
+                    <div>
                         <input type="submit" value="Save" id="saveButton">
                         <input type="submit" value="Cancel" id="cancelButton">
                     </div>
