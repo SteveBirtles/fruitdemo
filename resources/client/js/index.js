@@ -44,6 +44,8 @@ function pageLoad() {
             button.addEventListener("click", deleteFruit);
         }
 
+        checkLogin();
+
     });
 
     document.getElementById("saveButton").addEventListener("click", saveEditFruit);
@@ -55,6 +57,7 @@ function pageLoad() {
 }
 
 function login() {
+
     event.preventDefault();
 
     const form = document.getElementById("loginForm");
@@ -68,24 +71,11 @@ function login() {
             alert(responseData.error);
         } else {
 
-            const userDetails = document.getElementById("userDetails");
-            const usernameTextbox = document.getElementById("username");
-            userDetails.style.display = 'block';
-            userDetails.innerHTML = "Logged in as " + usernameTextbox.value;
+            Cookies.set("username", responseData.username);
+            Cookies.set("token", responseData.token);
 
-            document.getElementById("logoutDiv").style.display = 'block';
+            checkLogin();
 
-            let editButtons = document.getElementsByClassName("editButton");
-            for (let button of editButtons) {
-                button.style.visibility = "visible";
-            }
-
-            let deleteButtons = document.getElementsByClassName("deleteButton");
-            for (let button of deleteButtons) {
-                button.style.visibility = "visible";
-            }
-
-            document.getElementById("loginForm").style.display = 'none';
         }
     });
 
@@ -93,9 +83,67 @@ function login() {
 
 function logout() {
 
+    fetch("/user/logout", {method: 'post'}
+    ).then(response => response.json()
+    ).then(responseData => {
+        if (responseData.hasOwnProperty('error')) {
+
+            alert(responseData.error);
+
+        } else {
+
+            Cookies.remove("username");
+            Cookies.remove("token");
+
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+
+            checkLogin();
+        }
+    });
 
 }
 
+function checkLogin() {
+
+    let username = Cookies.get("username");
+
+    if (username === undefined) {
+
+        document.getElementById("loggedInDiv").style.display = 'none';
+        document.getElementById("notLoggedInDiv").style.display = 'block';
+
+        let editButtons = document.getElementsByClassName("editButton");
+        for (let button of editButtons) {
+            button.style.visibility = "hidden";
+        }
+
+        let deleteButtons = document.getElementsByClassName("deleteButton");
+        for (let button of deleteButtons) {
+            button.style.visibility = "hidden";
+        }
+
+
+    } else {
+
+        document.getElementById("userDetails").innerHTML = "Logged in as " + username;
+
+        document.getElementById("loggedInDiv").style.display = 'block';
+        document.getElementById("notLoggedInDiv").style.display = 'none';
+
+        let editButtons = document.getElementsByClassName("editButton");
+        for (let button of editButtons) {
+            button.style.visibility = "visible";
+        }
+
+        let deleteButtons = document.getElementsByClassName("deleteButton");
+        for (let button of deleteButtons) {
+            button.style.visibility = "visible";
+        }
+
+    }
+
+}
 
 function editFruit(event) {
 

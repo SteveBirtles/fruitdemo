@@ -72,7 +72,13 @@ public class Fruit {
     public String insertFruit(@FormDataParam("name") String name,
                               @FormDataParam("image") String image,
                               @FormDataParam("colour") String colour,
-                              @FormDataParam("size") String size) {
+                              @FormDataParam("size") String size,
+                              @CookieParam("token") String token) {
+
+        if (!User.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
+
         try {
             if (name == null || image == null || colour == null || size == null) {
                 throw new Exception("One or more form data parameters are missing in the HTTP request.");
@@ -101,7 +107,12 @@ public class Fruit {
                               @FormDataParam("name") String name,
                               @FormDataParam("image") String image,
                               @FormDataParam("colour") String colour,
-                              @FormDataParam("size") String size) {
+                              @FormDataParam("size") String size,
+                              @CookieParam("token") String token) {
+
+        if (!User.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
 
         try {
             if (id == null || name == null || image == null || colour == null || size == null) {
@@ -128,7 +139,12 @@ public class Fruit {
     @Path("delete")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String deleteFruit(@FormDataParam("id") Integer id) {
+    public String deleteFruit(@FormDataParam("id") Integer id,
+                              @CookieParam("token") String token) {
+
+        if (!User.validToken(token)) {
+            return "{\"error\": \"You don't appear to be logged in.\"}";
+        }
 
         try {
             if (id == null) {

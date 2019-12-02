@@ -2,6 +2,7 @@ package Controllers;
 
 import Server.Main;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.json.simple.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +21,8 @@ public class User {
 
         try {
 
+            System.out.println("user/login");
+
             PreparedStatement ps1 = Main.db.prepareStatement("SELECT Password FROM Users WHERE Username = ?");
             ps1.setString(1, username);
             ResultSet loginResults = ps1.executeQuery();
@@ -36,7 +39,10 @@ public class User {
                     ps2.setString(2, username);
                     ps2.executeUpdate();
 
-                    return "{\"token\": \""+ token + "\"}";
+                    JSONObject userDetails = new JSONObject();
+                    userDetails.put("username", username);
+                    userDetails.put("token", token);
+                    return userDetails.toString();
 
                 } else {
 
@@ -66,6 +72,8 @@ public class User {
 
         try {
 
+            System.out.println("user/logout");
+
             PreparedStatement ps1 = Main.db.prepareStatement("SELECT UserID FROM Users WHERE Token = ?");
             ps1.setString(1, token);
             ResultSet logoutResults = ps1.executeQuery();
@@ -93,6 +101,17 @@ public class User {
 
     }
 
+    public static boolean validToken(String token) {
+        try {
+            PreparedStatement ps = Main.db.prepareStatement("SELECT UserID FROM Users WHERE Token = ?");
+            ps.setString(1, token);
+            ResultSet logoutResults = ps.executeQuery();
+            return logoutResults.next();
+        } catch (Exception exception) {
+            System.out.println("Database error during /user/logout: " + exception.getMessage());
+            return false;
+        }
+    }
 
 
 }

@@ -4,6 +4,7 @@
     <head>
         <title>Demo page</title>
         <link rel="stylesheet" type="text/css" href="/client/css/styles.css">
+        <script src="/client/js/js.cookie.min.js"></script>
         <script src="/client/js/index.js"></script>
     </head>
 
@@ -12,30 +13,40 @@
         <div id="content">
 
             <div id="pageHeader">
-                <div class="floatRight">
-                    <button id="newButton" class="editButton">Add New Fruit</button>
-                    <div id="userDetails" style="margin: 0; text-align: right;"></div>
-                    <div id="logoutDiv" style="margin: 0; text-align: right; display: none;">
+
+                <div style="margin: 0; text-align: right; display: inline; float: right">
+                    <div id="notLoggedInDiv">
+                        <form id="loginForm">
+                            <div style="margin: 0; text-align: right;">
+                                <label for="username">Username: </label>
+                                <input type="text" name="username" id="username">
+                            </div>
+                            <div style="margin: 0; text-align: right;">
+                                <label for="password">Password: </label>
+                                <input type="password" name="password" id="password">
+                            </div>
+                            <div style="margin: 0; text-align: right;">
+                                <input type="submit" value="Login" id="loginButton">
+                            </div>
+                        </form>
+                    </div>
+                    <div id="loggedInDiv" style="margin: 0; text-align: right; display: none; ">
+                        <span id="userDetails"></span>
                         <button id="logoutButton">Logout</button>
                     </div>
-                    <form id="loginForm">
-                        <div style="margin: 0; text-align: right;">
-                            <label for="username">Username: </label>
-                            <input type="text" name="username" id="username">
-                        </div>
-                        <div style="margin: 0; text-align: right;">
-                            <label for="password">Password: </label>
-                            <input type="password" name="password" id="password">
-                        </div>
-                        <div style="margin: 0; text-align: right;">
-                            <input type="submit" value="Login" id="loginButton">
-                        </div>
-                    </form>
+
                 </div>
+
                 <h1>All the CRUD ops demoed with Fruit!</h1>
+
+            </div>
+
+            <div class="floatRight">
+                <button id="newButton" class="editButton" style="margin-bottom: 10px">Add New Fruit</button>
             </div>
 
             <div id="listDiv"></div>
+
 
             <div id="editDiv">
                 <h2 id="editHeading"></h2>
