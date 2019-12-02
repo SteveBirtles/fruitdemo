@@ -44,7 +44,7 @@ th.last {
     padding: 10px;
 }
 
-.editButton, .deleteButton, #saveButton, #cancelButton {
+.editButton, .deleteButton, #saveButton, #cancelButton, .linkButton {
     color: black;
     font-size: 14px;
     border: none;
@@ -55,9 +55,10 @@ th.last {
 
 .editButton {
     background-color: silver;
+    visibility: hidden;
 }
 
-.editButton:hover {
+.editButton:hover, .linkButton:hover {
     background-color: grey;
 }
 
@@ -70,6 +71,7 @@ th.last {
 }
 
 .deleteButton, #cancelButton {
+    visibility: hidden;
     background-color: indianred;
     margin-left: 10px;
 }
