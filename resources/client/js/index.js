@@ -51,98 +51,6 @@ function pageLoad() {
     document.getElementById("saveButton").addEventListener("click", saveEditFruit);
     document.getElementById("cancelButton").addEventListener("click", cancelEditFruit);
 
-    document.getElementById("loginButton").addEventListener("click", login);
-    document.getElementById("logoutButton").addEventListener("click", logout);
-
-}
-
-function login() {
-
-    event.preventDefault();
-
-    const form = document.getElementById("loginForm");
-    const formData = new FormData(form);
-
-    fetch("/user/login", {method: 'post', body: formData}
-    ).then(response => response.json()
-    ).then(responseData => {
-
-        if (responseData.hasOwnProperty('error')) {
-            alert(responseData.error);
-        } else {
-
-            Cookies.set("username", responseData.username);
-            Cookies.set("token", responseData.token);
-
-            checkLogin();
-
-        }
-    });
-
-}
-
-function logout() {
-
-    fetch("/user/logout", {method: 'post'}
-    ).then(response => response.json()
-    ).then(responseData => {
-        if (responseData.hasOwnProperty('error')) {
-
-            alert(responseData.error);
-
-        } else {
-
-            Cookies.remove("username");
-            Cookies.remove("token");
-
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
-
-            checkLogin();
-        }
-    });
-
-}
-
-function checkLogin() {
-
-    let username = Cookies.get("username");
-
-    if (username === undefined) {
-
-        document.getElementById("loggedInDiv").style.display = 'none';
-        document.getElementById("notLoggedInDiv").style.display = 'block';
-
-        let editButtons = document.getElementsByClassName("editButton");
-        for (let button of editButtons) {
-            button.style.visibility = "hidden";
-        }
-
-        let deleteButtons = document.getElementsByClassName("deleteButton");
-        for (let button of deleteButtons) {
-            button.style.visibility = "hidden";
-        }
-
-
-    } else {
-
-        document.getElementById("userDetails").innerHTML = "Logged in as " + username;
-
-        document.getElementById("loggedInDiv").style.display = 'block';
-        document.getElementById("notLoggedInDiv").style.display = 'none';
-
-        let editButtons = document.getElementsByClassName("editButton");
-        for (let button of editButtons) {
-            button.style.visibility = "visible";
-        }
-
-        let deleteButtons = document.getElementsByClassName("deleteButton");
-        for (let button of deleteButtons) {
-            button.style.visibility = "visible";
-        }
-
-    }
-
 }
 
 function editFruit(event) {
@@ -273,5 +181,45 @@ function deleteFruit(event) {
             }
         );
     }
+
+}
+
+function checkLogin() {
+
+    let username = Cookies.get("username");
+
+    let logInHTML = '';
+
+    if (username === undefined) {
+
+        let editButtons = document.getElementsByClassName("editButton");
+        for (let button of editButtons) {
+            button.style.visibility = "hidden";
+        }
+
+        let deleteButtons = document.getElementsByClassName("deleteButton");
+        for (let button of deleteButtons) {
+            button.style.visibility = "hidden";
+        }
+
+        logInHTML = "Not logged in. <a href='/client/login.html'>Log in</a>";
+
+    } else {
+
+        let editButtons = document.getElementsByClassName("editButton");
+        for (let button of editButtons) {
+            button.style.visibility = "visible";
+        }
+
+        let deleteButtons = document.getElementsByClassName("deleteButton");
+        for (let button of deleteButtons) {
+            button.style.visibility = "visible";
+        }
+
+        logInHTML = "Logged in as " + username + ". <a href='/client/login.html?logout'>Log out</a>";
+
+    }
+
+    document.getElementById("loggedInDetails").innerHTML = logInHTML;
 
 }
