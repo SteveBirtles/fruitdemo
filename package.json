@@ -1,0 +1,25 @@
+{
+  "name": "fruitdemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Server.js",
+  "dependencies": {
+    "better-sqlite3": "^5.4.3",
+    "express": "^4.17.1",
+    "express-formidable": "^1.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SteveBirtles/fruitdemo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SteveBirtles/fruitdemo/issues"
+  },
+  "homepage": "https://github.com/SteveBirtles/fruitdemo#readme"
+}
